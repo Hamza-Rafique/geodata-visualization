@@ -11,7 +11,7 @@ export class GeodataVisualizationService {
 
   initializeMap(elementId: string, options?: L.MapOptions): void {
     if (this.map) {
-      this.map.remove();
+      this.map.remove(); // Remove any existing map instance
     }
 
     const defaultOptions: L.MapOptions = {
@@ -21,11 +21,49 @@ export class GeodataVisualizationService {
     };
 
     this.map = L.map(elementId, defaultOptions);
+    // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Set default political map as the base layer
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      attribution: '© OpenStreetMap contributors',
+      attribution: '&copy; <a href="">Artimisa</a> contributors',
     }).addTo(this.map);
+  }
+
+  switchToPhysicalMap(): void {
+    if (!this.map) return;
+    this.map.eachLayer((layer) => layer.remove()); // Clear current layers
+    L.tileLayer(
+      'https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',
+      {
+        maxZoom: 18,
+        attribution:
+          'Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.',
+      }
+    ).addTo(this.map);
+  }
+
+  addPoint(lat: number, lng: number, options?: L.MarkerOptions): void {
+    if (!this.map) return;
+    L.marker([lat, lng], options).addTo(this.map);
+  }
+  addPolygon(latlngs: L.LatLngExpression[], options?: L.PolylineOptions): void {
+    if (!this.map) return;
+    L.polygon(latlngs, options).addTo(this.map);
+  }
+  addRaster(url: string, colorFilter?: string): void {
+    if (!this.map) return;
+    const rasterLayer = L.tileLayer(url, { opacity: 0.7 }); // Customize opacity
+    const container = rasterLayer.getContainer();
+    if (colorFilter && container) {
+      container.style.filter = colorFilter;
+    }
+    rasterLayer.addTo(this.map);
+  }
+  setLayerColor(layer: L.Layer, color: string): void {
+    if (layer instanceof L.Polygon || layer instanceof L.CircleMarker) {
+      layer.setStyle({ color });
+    }
   }
 
   addLayer(map: L.Map, layer: L.Layer): void {

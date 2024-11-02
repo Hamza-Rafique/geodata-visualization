@@ -28,100 +28,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "projects/geodata-visualization/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
-    },
-   
-    "geodata-demos": {
-      "projectType": "application",
-      "schematics": {},
-      "root": "projects/geodata-demos",
-      "sourceRoot": "projects/geodata-demos/src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:application",
-          "options": {
-            "outputPath": "dist/geodata-demos",
-            "index": "projects/geodata-demos/src/index.html",
-            "browser": "projects/geodata-demos/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "projects/geodata-demos/tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/geodata-demos/public"
-              }
-            ],
-            "styles": [
-              "projects/geodata-demos/src/styles.css"
-            ],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "geodata-demos:build:production"
-            },
-            "development": {
-              "buildTarget": "geodata-demos:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "projects/geodata-demos/tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/geodata-demos/public"
-              }
-            ],
-            "styles": [
-              "projects/geodata-demos/src/styles.css"
-            ],
-            "scripts": []
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
@@ -139,9 +46,7 @@
             "outputPath": "dist/geodata-demo",
             "index": "projects/geodata-demo/src/index.html",
             "browser": "projects/geodata-demo/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/geodata-demo/tsconfig.app.json",
             "assets": [
               {
@@ -149,9 +54,8 @@
                 "input": "projects/geodata-demo/public"
               }
             ],
-            "styles": [
-              "projects/geodata-demo/src/styles.css"
-            ],
+            "styles": ["node_modules/leaflet/dist/leaflet.css", "projects/geodata-demo/src/styles.css"],
+
             "scripts": []
           },
           "configurations": {
@@ -196,10 +100,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "projects/geodata-demo/tsconfig.spec.json",
             "assets": [
               {
@@ -207,9 +108,7 @@
                 "input": "projects/geodata-demo/public"
               }
             ],
-            "styles": [
-              "projects/geodata-demo/src/styles.css"
-            ],
+            "styles": ["node_modules/leaflet/dist/leaflet.css", "projects/geodata-demo/src/styles.css"],
             "scripts": []
           }
         }
