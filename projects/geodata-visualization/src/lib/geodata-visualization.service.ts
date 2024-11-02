@@ -8,6 +8,7 @@ export class GeodataVisualizationService {
   private layers: L.Layer[] = [];
   private map: L.Map | undefined;
   private polygons: L.Polygon[] = [];
+  private activeLayers: { [key: string]: any } = {};
   constructor() {}
 
   initializeMap(elementId: string, options?: L.MapOptions): void {
@@ -48,15 +49,15 @@ export class GeodataVisualizationService {
     if (!this.map) return;
     L.marker([lat, lng], options).addTo(this.map);
   }
-  
+
   addPolygon(
     coordinates: [number, number][],
     options: { color: string }
   ): L.Polygon {
-    const polygon = L.polygon(coordinates, { color: options.color })
+    const polygon = L.polygon(coordinates, { color: options.color });
     polygon.addTo(this.map!);
-    this.polygons.push(polygon); 
-    return polygon; 
+    this.polygons.push(polygon);
+    return polygon;
   }
   // Method to retrieve the last added polygon
   getLastPolygon(): L.Polygon | null {
@@ -87,10 +88,28 @@ export class GeodataVisualizationService {
   toggleLayerVisibility(map: L.Map, layer: L.Layer, visible: boolean): void {
     visible ? layer.addTo(map) : map.removeLayer(layer);
   }
+  activateLayer(type: string, layer: L.Layer) {
+    if (!this.activeLayers[type]) {
+      this.activeLayers[type] = layer;
+      layer.addTo(this.map!);
+    }
+  }
 
-  setLayerOpacity(layer: L.Layer, opacity: number): void {
-    if (layer instanceof L.TileLayer) {
-      layer.setOpacity(opacity);
+  deactivateLayer(type: string) {
+    const layer = this.activeLayers[type];
+    if (layer) {
+      layer.remove();
+      delete this.activeLayers[type];
+    }
+  }
+  setLayerOpacity(type: string, opacity: number): void {
+    const layer = this.activeLayers[type];
+    if (layer) {
+      if (layer instanceof L.Polygon || layer instanceof L.CircleMarker) {
+        layer.setStyle({ opacity }); 
+      } else if (layer instanceof L.TileLayer) {
+        layer.setOpacity(opacity);
+      }
     }
   }
 }

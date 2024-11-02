@@ -1,0 +1,20 @@
+.layer-control-panel {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed; /* Fixed sidebar */
+    top: 0;
+    left: 0;
+  }
+  
+  .layer-control-panel h2 {
+    margin-top: 0;
+  }
+  
+  .opacity-control {
+    margin-top: 10px;
+  }
+  

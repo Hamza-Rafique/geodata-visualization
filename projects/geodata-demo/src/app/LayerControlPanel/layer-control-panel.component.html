@@ -1,0 +1,27 @@
+<div class="layer-control-panel">
+  <h2>Layer Control Panel</h2>
+  <ul>
+    <li *ngFor="let layer of layers">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="layer.active"
+          (change)="toggleLayer(layer)"
+        />
+        {{ layer.name }}
+      </label>
+      <div class="opacity-control">
+        <label for="opacity-{{ layer.type }}">Opacity:</label>
+        <input
+          type="range"
+          id="opacity-{{ layer.type }}"
+          min="0"
+          max="1"
+          step="0.1"
+          [(ngModel)]="layer.opacity"
+          (input)="setOpacity(layer, layer.opacity)"
+        />
+      </div>
+    </li>
+  </ul>
+</div>

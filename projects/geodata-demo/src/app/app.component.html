@@ -1,5 +1,13 @@
 <div class="header">
-  <div>Visualization</div>
+  <div>Geospatial Data Visualization</div>
+  <div class="menu">
+    <ul>
+      <li>Home</li>
+      <li>About</li>
+      <li>Contact</li>
+    </ul>
+  </div>
+
   <button (click)="switchToPhysicalMap()" type="button" class="btn btn-primary">
     Switch to Physical Map
   </button>
@@ -9,7 +17,9 @@
   <button (click)="openPolygonPopup()" class="btn btn-secondary">
     Add Polygon
   </button>
-  <button (click)="changePolygonColor()" class="btn btn-secondary">ChangePolygonColor</button>
+  <button (click)="changePolygonColor()" class="btn btn-secondary">
+    ChangePolygonColor
+  </button>
   <button
     (click)="isRasterFormOpen = !isRasterFormOpen"
     class="btn btn-primary"
@@ -17,6 +27,7 @@
     Toggle Raster Form
   </button>
 </div>
+<!-- <app-layer-control-panel></app-layer-control-panel> -->
 
 <div class="map-container">
   <div class="map-frame">
@@ -84,17 +95,17 @@
 </div>
 
 <div *ngIf="isRasterFormOpen">
-    <h2>Add a Raster Layer</h2>
-    <form (submit)="addRasterLayer()">
-      <label>
-        Raster URL:
-        <input type="text" [(ngModel)]="rasterUrl" name="rasterUrl" required />
-      </label>
-      <label>
-        Color Filter (optional):
-        <input type="text" [(ngModel)]="colorFilter" name="colorFilter" />
-      </label>
-      <button type="submit" class="btn btn-success">Add Raster</button>
-    </form>
-  </div>
+  <h2>Add a Raster Layer</h2>
+  <form (submit)="addRasterLayer()">
+    <label>
+      Raster URL:
+      <input type="text" [(ngModel)]="rasterUrl" name="rasterUrl" required />
+    </label>
+    <label>
+      Color Filter (optional):
+      <input type="text" [(ngModel)]="colorFilter" name="colorFilter" />
+    </label>
+    <button type="submit" class="btn btn-success">Add Raster</button>
+  </form>
+</div>
 <router-outlet />

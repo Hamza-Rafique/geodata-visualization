@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NgIf, FormsModule],
-  providers: [GeodataVisualizationService],
+  providers: [GeodataVisualizationService, MatSnackBar],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -124,7 +124,7 @@ export class AppComponent implements AfterViewInit {
       });
     }
   }
-  
+
   addRasterLayer() {
     if (this.rasterUrl) {
       this.geodataService.addRaster(this.rasterUrl, this.colorFilter);
@@ -135,6 +135,12 @@ export class AppComponent implements AfterViewInit {
       this.snackBar.open('Please enter a valid raster URL', 'Close', {
         duration: 2000,
       });
+    }
+  }
+ changeLayerOpacity(type: string, opacity: number) {
+    const layer = this.geodataService.activeLayers[type];
+    if (layer) {
+      this.geodataService.setLayerOpacity(layer, opacity);
     }
   }
 }
