@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 export class GeodataVisualizationService {
   private layers: L.Layer[] = [];
   private map: L.Map | undefined;
+  private polygons: L.Polygon[] = [];
   constructor() {}
 
   initializeMap(elementId: string, options?: L.MapOptions): void {
@@ -47,9 +48,21 @@ export class GeodataVisualizationService {
     if (!this.map) return;
     L.marker([lat, lng], options).addTo(this.map);
   }
-  addPolygon(latlngs: L.LatLngExpression[], options?: L.PolylineOptions): void {
-    if (!this.map) return;
-    L.polygon(latlngs, options).addTo(this.map);
+  
+  addPolygon(
+    coordinates: [number, number][],
+    options: { color: string }
+  ): L.Polygon {
+    const polygon = L.polygon(coordinates, { color: options.color })
+    polygon.addTo(this.map!);
+    this.polygons.push(polygon); 
+    return polygon; 
+  }
+  // Method to retrieve the last added polygon
+  getLastPolygon(): L.Polygon | null {
+    return this.polygons.length > 0
+      ? this.polygons[this.polygons.length - 1]
+      : null;
   }
   addRaster(url: string, colorFilter?: string): void {
     if (!this.map) return;
