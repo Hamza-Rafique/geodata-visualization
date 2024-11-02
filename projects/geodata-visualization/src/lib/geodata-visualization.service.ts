@@ -2,17 +2,38 @@ import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class LayerService {
+export class GeodataVisualizationService {
   private layers: L.Layer[] = [];
+  private map: L.Map | undefined;
+  constructor() {}
 
-  addLayer(map: L.Map,layer: L.Layer): void {
-    this.layers.push(layer);
-    layer.addTo(map); // Assuming map is a reference to your Leaflet map
+  initializeMap(elementId: string, options?: L.MapOptions): void {
+    if (this.map) {
+      this.map.remove();
+    }
+
+    const defaultOptions: L.MapOptions = {
+      center: [0, 0],
+      zoom: 2,
+      ...options,
+    };
+
+    this.map = L.map(elementId, defaultOptions);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(this.map);
   }
 
-  toggleLayerVisibility(map: L.Map,layer: L.Layer, visible: boolean): void {
+  addLayer(map: L.Map, layer: L.Layer): void {
+    this.layers.push(layer);
+    layer.addTo(map);
+  }
+
+  toggleLayerVisibility(map: L.Map, layer: L.Layer, visible: boolean): void {
     visible ? layer.addTo(map) : map.removeLayer(layer);
   }
 
