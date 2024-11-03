@@ -8,7 +8,7 @@ export class GeodataVisualizationService {
   private layers: L.Layer[] = [];
   private map: L.Map | undefined;
   private polygons: L.Polygon[] = [];
-  private activeLayers: { [key: string]: any } = {};
+  public activeLayers: { [key: string]: any } = {};
   constructor() {}
 
   initializeMap(elementId: string, options?: L.MapOptions): void {
@@ -112,4 +112,5 @@ export class GeodataVisualizationService {
       }
     }
   }
+  
 }

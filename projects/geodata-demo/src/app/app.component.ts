@@ -4,12 +4,13 @@ import { GeodataVisualizationService } from 'geodata-visualization';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LayerControlPanelComponent } from './LayerControlPanel/layer-control-panel.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NgIf, FormsModule],
-  providers: [GeodataVisualizationService, MatSnackBar],
+  providers: [GeodataVisualizationService, MatSnackBar, LayerControlPanelComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -26,11 +27,15 @@ export class AppComponent implements AfterViewInit {
   colorFilter: string = '';
   isRasterFormOpen: boolean = false;
   newColor: string = 'red';
+  isOpen = false;
   constructor(
     private geodataService: GeodataVisualizationService,
     private snackBar: MatSnackBar
   ) {}
-
+  toggleSidebar() {
+    this.isOpen = !this.isOpen;
+    document.body.classList.toggle('sidebar-closed', !this.isOpen);
+  }
   ngAfterViewInit(): void {
     this.geodataService.initializeMap('map', {
       center: [39.8282, -98.5795],
@@ -138,9 +143,9 @@ export class AppComponent implements AfterViewInit {
     }
   }
  changeLayerOpacity(type: string, opacity: number) {
-    const layer = this.geodataService.activeLayers[type];
-    if (layer) {
-      this.geodataService.setLayerOpacity(layer, opacity);
-    }
+    // const layer = this.geodataService.activeLayers[type];
+    // if (layer) {
+    //   this.geodataService.setLayerOpacity(layer, opacity);
+    // }
   }
 }

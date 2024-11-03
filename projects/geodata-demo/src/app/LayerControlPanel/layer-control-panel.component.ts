@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { GeodataVisualizationService } from 'geodata-visualization';
 
 @Component({
   selector: 'app-layer-control-panel',
   templateUrl: './layer-control-panel.component.html',
   styleUrls: ['./layer-control-panel.component.css'],
+  standalone: true,
+  imports: [FormsModule],
 })
 export class LayerControlPanelComponent {
   layers: { name: string; active: boolean; opacity: number; type: string }[] = [
