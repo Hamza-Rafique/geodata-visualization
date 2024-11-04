@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GeodataVisualizationService } from 'geodata-visualization';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,7 @@ import { LayerControlPanelComponent } from './LayerControlPanel/layer-control-pa
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NgIf, FormsModule],
-  providers: [GeodataVisualizationService, MatSnackBar, LayerControlPanelComponent ],
+  providers: [GeodataVisualizationService, MatSnackBar,BrowserAnimationsModule, LayerControlPanelComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -57,17 +58,18 @@ export class AppComponent implements AfterViewInit {
       this.geodataService.addPoint(this.latitude, this.longitude, {
         title: this.title,
       });
-      this.snackBar.open('Point added successfully!', 'Close', {
-        duration: 3000,
-      });
+      // this.snackBar.open('Point added successfully!', 'Close', {
+      //   duration: 3000,
+      // });
       this.closeFormPopup();
       this.latitude = 0;
       this.longitude = 0;
       this.title = '';
     } else {
-      this.snackBar.open('Error: Please fill all fields correctly.', 'Close', {
-        duration: 3000,
-      });
+      // this.snackBar.open('Error: Please fill all fields correctly.', 'Close', {
+      //   duration: 3000,
+      // });
+      console.log('Error: Please fill all fields correctly.');
     }
   }
   openPolygonPopup() {
@@ -91,18 +93,18 @@ export class AppComponent implements AfterViewInit {
         this.geodataService.addPolygon(coordinates, {
           color: this.polygonColor,
         });
-        this.snackBar.open('Polygon added successfully!', 'Close', {
-          duration: 3000,
-        });
+        // this.snackBar.open('Polygon added successfully!', 'Close', {
+        //   duration: 3000,
+        // });
         this.closePolygonPopup();
         this.polygonCoordinates = '';
         this.polygonColor = 'blue';
       } catch (error) {
-        this.snackBar.open(
-          'Error: Invalid polygon coordinates format.',
-          'Close',
-          { duration: 3000 }
-        );
+        // this.snackBar.open(
+        //   'Error: Invalid polygon coordinates format.',
+        //   'Close',
+        //   { duration: 3000 }
+        // );
       }
     } else {
       this.snackBar.open('Error: Please fill all fields correctly.', 'Close', {
@@ -133,13 +135,15 @@ export class AppComponent implements AfterViewInit {
   addRasterLayer() {
     if (this.rasterUrl) {
       this.geodataService.addRaster(this.rasterUrl, this.colorFilter);
-      this.snackBar.open('Raster layer added successfully', 'Close', {
-        duration: 2000,
-      });
+      // this.snackBar.open('Raster layer added successfully', 'Close', {
+      //   duration: 2000,
+      // });
+      console.log('Raster layer added successfully');
     } else {
-      this.snackBar.open('Please enter a valid raster URL', 'Close', {
-        duration: 2000,
-      });
+      console.log('Please enter a valid raster URL');
+      // this.snackBar.open('Please enter a valid raster URL', 'Close', {
+      //   duration: 2000,
+      // });
     }
   }
  changeLayerOpacity(type: string, opacity: number) {

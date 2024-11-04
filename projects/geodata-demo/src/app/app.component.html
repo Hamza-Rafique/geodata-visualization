@@ -1,8 +1,10 @@
 <div class="header">
-  <div>Geospatial Data Visualization
+  <div>
+    
     <button class="toggle-button" (click)="toggleSidebar()">
       <span [class.rotate]="isOpen">➔</span>
     </button>
+    <span class="title"> Geospatial Data Visualization</span> 
   </div>
   <div class="menu">
     <ul>
@@ -15,13 +17,7 @@
 
 <div class="sidebar" [class.open]="isOpen">
   <div class="sidebar-content">
-    <button
-      (click)="switchToPhysicalMap()"
-      type="button"
-      class="btn btn-primary"
-    >
-      Switch to Physical Map
-    </button>
+   
     <button (click)="openFormPopup()" type="button" class="btn btn-secondary">
       Add Point
     </button>
@@ -37,11 +33,17 @@
     >
       Toggle Raster Form
     </button>
+    <button
+    (click)="switchToPhysicalMap()"
+    type="button"
+    class="btn btn-primary"
+  >
+    Switch to Physical Map
+  </button>
   </div>
 </div>
 
-<div class="map-container">
-  
+<div class="map-container"[class.open]="isOpen">
   <div class="map-frame">
     <div id="map"></div>
   </div>
