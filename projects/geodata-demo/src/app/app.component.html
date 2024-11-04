@@ -1,14 +1,14 @@
 <div class="header">
   <div>
-    
     <button class="toggle-button" (click)="toggleSidebar()">
       <span [class.rotate]="isOpen">➔</span>
     </button>
-    <span class="title"> Geospatial Data Visualization</span> 
+    <span class="title"> Geospatial Data Visualization</span>
   </div>
   <div class="menu">
     <ul>
       <li>Home</li>
+      <li>Docs</li>
       <li>About</li>
       <li>Contact</li>
     </ul>
@@ -17,7 +17,6 @@
 
 <div class="sidebar" [class.open]="isOpen">
   <div class="sidebar-content">
-   
     <button (click)="openFormPopup()" type="button" class="btn btn-secondary">
       Add Point
     </button>
@@ -34,92 +33,215 @@
       Toggle Raster Form
     </button>
     <button
-    (click)="switchToPhysicalMap()"
-    type="button"
-    class="btn btn-primary"
-  >
-    Switch to Physical Map
-  </button>
+      (click)="switchToPhysicalMap()"
+      type="button"
+      class="btn btn-primary"
+    >
+      Switch to Physical Map
+    </button>
   </div>
 </div>
 
-<div class="map-container"[class.open]="isOpen">
+<div class="map-container" [class.open]="isOpen">
   <div class="map-frame">
     <div id="map"></div>
   </div>
 </div>
 
 <!-- Popup Form for Adding a Point -->
-<div class="popup-overlay" *ngIf="isFormOpen">
-  <div class="popup-form">
-    <h2>Add a Point</h2>
-    <form (submit)="addPoint()">
-      <label>
-        Latitude:
-        <input type="number" [(ngModel)]="latitude" name="latitude" required />
-      </label>
-      <label>
-        Longitude:
-        <input
-          type="number"
-          [(ngModel)]="longitude"
-          name="longitude"
-          required
-        />
-      </label>
-      <label>
-        Title:
-        <input type="text" [(ngModel)]="title" name="title" required />
-      </label>
-      <button type="submit" class="btn btn-success">Add Point</button>
-      <button type="button" (click)="closeFormPopup()" class="btn btn-danger">
-        Cancel
-      </button>
-    </form>
+<div
+  class="modal fade"
+  [ngClass]="{ show: isFormOpen }"
+  [ngStyle]="{ display: isFormOpen ? 'block' : 'none' }"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addPointModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPointModalLabel">Add a Point</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeFormPopup()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="addPoint()">
+          <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="latitude"
+              [(ngModel)]="latitude"
+              name="latitude"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="longitude"
+              [(ngModel)]="longitude"
+              name="longitude"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              [(ngModel)]="title"
+              name="title"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-success">Add Point</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="closeFormPopup()"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Popup Form for Adding a Polygon -->
-<div class="popup-overlay" *ngIf="isPolygonFormOpen">
-  <div class="popup-form">
-    <h2>Add a Polygon</h2>
-    <form (submit)="addPolygon()">
-      <label>
-        Coordinates (Latitude, Longitude):
-        <textarea
-          [(ngModel)]="polygonCoordinates"
-          name="coordinates"
-          required
-        ></textarea>
-      </label>
-      <label>
-        Color:
-        <input type="text" [(ngModel)]="polygonColor" name="color" required />
-      </label>
-      <button type="submit" class="btn btn-success">Add Polygon</button>
-      <button
-        type="button"
-        (click)="closePolygonPopup()"
-        class="btn btn-danger"
-      >
-        Cancel
-      </button>
-    </form>
+<div
+  class="modal fade"
+  [ngClass]="{ show: isPolygonFormOpen }"
+  [ngStyle]="{ display: isPolygonFormOpen ? 'block' : 'none' }"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addPolygonModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPolygonModalLabel">Add a Polygon</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closePolygonPopup()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="addPolygon()">
+          <div class="form-group">
+            <label for="polygonCoordinates"
+              >Coordinates (Latitude, Longitude):</label
+            >
+            <textarea
+              class="form-control"
+              id="polygonCoordinates"
+              [(ngModel)]="polygonCoordinates"
+              name="coordinates"
+              required
+            ></textarea>
+            <small class="form-text text-muted">
+              Enter coordinates as latitude, longitude pairs (one per line).
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="polygonColor">Color:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="polygonColor"
+              [(ngModel)]="polygonColor"
+              name="color"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-success">Add Polygon</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="closePolygonPopup()"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 
-<div *ngIf="isRasterFormOpen">
-  <h2>Add a Raster Layer</h2>
-  <form (submit)="addRasterLayer()">
-    <label>
-      Raster URL:
-      <input type="text" [(ngModel)]="rasterUrl" name="rasterUrl" required />
-    </label>
-    <label>
-      Color Filter (optional):
-      <input type="text" [(ngModel)]="colorFilter" name="colorFilter" />
-    </label>
-    <button type="submit" class="btn btn-success">Add Raster</button>
-  </form>
+<!-- Modal Popup for Adding Raster Layer -->
+<div
+  class="modal fade"
+  [ngClass]="{ show: isRasterFormOpen }"
+  [ngStyle]="{ display: isRasterFormOpen ? 'block' : 'none' }"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addRasterLayerModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addRasterLayerModalLabel">Add a Raster Layer</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeRasterPopup()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="addRasterLayer()">
+          <div class="form-group">
+            <label for="rasterUrl">Raster URL:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="rasterUrl"
+              [(ngModel)]="rasterUrl"
+              name="rasterUrl"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="colorFilter">Color Filter (optional):</label>
+            <input
+              type="text"
+              class="form-control"
+              id="colorFilter"
+              [(ngModel)]="colorFilter"
+              name="colorFilter"
+            />
+          </div>
+          <button type="submit" class="btn btn-success">Add Raster</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="closeRasterPopup()"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 <router-outlet />

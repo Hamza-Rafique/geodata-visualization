@@ -4,11 +4,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  margin-top: 130px;
+  margin-top: 70px;
 }
 .map-container.open {
   transform: translateX(0);
   margin-left: 290px !important;
+  /* margin-top: 130px !important; */
 }
 
 .map-frame {
@@ -19,10 +20,10 @@
 #map {
   height: 100%;
 }
-.leaflet-control-attribution{
+.leaflet-control-attribution {
   display: none;
 }
-.leaflet-bottom{
+.leaflet-bottom {
   display: none !important;
 }
 .header {
@@ -59,7 +60,6 @@ ul li {
   top: 0;
   height: 100%;
   width: 250px;
-  background-color: #2c3e50;
   color: #fff;
   padding: 20px;
   transition: transform 0.3s ease;
@@ -117,64 +117,6 @@ ul li {
   transition: background-color 0.3s ease;
 }
 
-.btn-primary {
-  background-color: #3498db;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #2980b9;
-}
-
-.btn-secondary {
-  background-color: #95a5a6;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background-color: #7f8c8d;
-}
-input{
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-form{
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  margin-left: 290px;
-}
-.btn-success{
-  background-color: #2ecc71;
-  color: white;
-  width: 100px;
-  padding: auto;
-}
-.btn-success:hover{
-  background-color: #27ae60;
-}
-.btn-danger{
-  background-color: #e74c3c;
-  color: white;
-  width: 100px;
-  padding: auto;
-}
-.btn-danger:hover{
-  background-color: #c0392b;
-}
-.btn-danger{
-  background-color: #e74c3c;
-  color: white;
-  width: 200px;
-}
-.btn-danger:hover{
-  background-color: #c0392b;
-}
-.title{
+.title {
   margin-left: 20px;
 }

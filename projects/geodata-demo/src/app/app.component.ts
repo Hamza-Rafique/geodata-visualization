@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GeodataVisualizationService } from 'geodata-visualization';
-import { NgIf } from '@angular/common';
+import { NgIf, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LayerControlPanelComponent } from './LayerControlPanel/layer-control-panel.component';
@@ -10,7 +10,7 @@ import { LayerControlPanelComponent } from './LayerControlPanel/layer-control-pa
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgIf, FormsModule],
+  imports: [RouterOutlet, NgIf, FormsModule, CommonModule],
   providers: [GeodataVisualizationService, MatSnackBar,BrowserAnimationsModule, LayerControlPanelComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -29,6 +29,7 @@ export class AppComponent implements AfterViewInit {
   isRasterFormOpen: boolean = false;
   newColor: string = 'red';
   isOpen = false;
+ 
   constructor(
     private geodataService: GeodataVisualizationService,
     private snackBar: MatSnackBar
@@ -43,6 +44,13 @@ export class AppComponent implements AfterViewInit {
       zoom: 5,
     });
   }
+  openRasterFormPopup() {
+    this.isRasterFormOpen = true;
+  }
+  
+  closeRasterPopup() {
+    this.isRasterFormOpen = false;
+  }
   switchToPhysicalMap() {
     this.geodataService.switchToPhysicalMap();
   }
@@ -53,6 +61,7 @@ export class AppComponent implements AfterViewInit {
   closeFormPopup() {
     this.isFormOpen = false;
   }
+ 
   addPoint() {
     if (this.latitude && this.longitude && this.title) {
       this.geodataService.addPoint(this.latitude, this.longitude, {
@@ -145,6 +154,7 @@ export class AppComponent implements AfterViewInit {
       //   duration: 2000,
       // });
     }
+    this.closeRasterPopup();
   }
  changeLayerOpacity(type: string, opacity: number) {
     // const layer = this.geodataService.activeLayers[type];

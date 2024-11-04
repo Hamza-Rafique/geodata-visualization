@@ -1,6 +1,7 @@
 {
-  "name": "geodata-visualization",
+  "name": "gaia-gis",
   "version": "0.0.1",
+  "description": " The Geodata Visualization Library is an Angular-compatible library that provides powerful tools for visualizing geospatial data on interactive maps.",
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0"
