@@ -24,12 +24,15 @@ export class AppComponent implements AfterViewInit {
   polygonCoordinates: string = '';
   polygonColor: string = 'blue';
   isPolygonFormOpen: boolean = false;
-  rasterUrl: string = ''; // Input for raster URL
+  rasterUrl: string = ''; 
   colorFilter: string = '';
   isRasterFormOpen: boolean = false;
   newColor: string = 'red';
   isOpen = false;
- 
+  activeLayers: { [key: string]: boolean } = {}; 
+  layerOpacity: { [key: string]: number } = {};
+  tifUrl: string | undefined; 
+  loading: boolean = false;
   constructor(
     private geodataService: GeodataVisualizationService,
     private snackBar: MatSnackBar
@@ -64,23 +67,25 @@ export class AppComponent implements AfterViewInit {
  
   addPoint() {
     if (this.latitude && this.longitude && this.title) {
-      this.geodataService.addPoint(this.latitude, this.longitude, {
-        title: this.title,
-      });
-      // this.snackBar.open('Point added successfully!', 'Close', {
-      //   duration: 3000,
-      // });
+      this.geodataService.addPoint(
+        this.latitude,
+        this.longitude,
+        { title: this.title },
+        () => {               
+          console.log(`Marker for ${this.title} clicked at (${this.latitude}, ${this.longitude})`);
+          // this.snackBar.open(`Marker for ${this.title} clicked!`, 'Close', { duration: 3000 });
+        }
+      );
+  
       this.closeFormPopup();
       this.latitude = 0;
       this.longitude = 0;
       this.title = '';
     } else {
-      // this.snackBar.open('Error: Please fill all fields correctly.', 'Close', {
-      //   duration: 3000,
-      // });
       console.log('Error: Please fill all fields correctly.');
     }
   }
+  
   openPolygonPopup() {
     this.isPolygonFormOpen = true;
   }
@@ -155,6 +160,17 @@ export class AppComponent implements AfterViewInit {
       // });
     }
     this.closeRasterPopup();
+  }
+  async fetchAndDisplayTIF(url: string) {
+    this.loading = true; 
+    const tifBlob = await this.geodataService.fetchTIF(url);
+    if (tifBlob) {
+  
+      this.tifUrl = URL.createObjectURL(tifBlob);
+    } else {
+      console.error('Failed to retrieve TIF file');
+    }
+    this.loading = false; 
   }
  changeLayerOpacity(type: string, opacity: number) {
     // const layer = this.geodataService.activeLayers[type];

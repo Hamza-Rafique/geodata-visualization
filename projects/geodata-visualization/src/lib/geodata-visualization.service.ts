@@ -34,7 +34,7 @@ export class GeodataVisualizationService {
 
   switchToPhysicalMap(): void {
     if (!this.map) return;
-    this.map.eachLayer((layer) => layer.remove()); // Clear current layers
+    this.map.eachLayer((layer) => layer.remove());
     L.tileLayer(
       'https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',
       {
@@ -45,21 +45,55 @@ export class GeodataVisualizationService {
     ).addTo(this.map);
   }
 
-  addPoint(lat: number, lng: number, options?: L.MarkerOptions): void {
+  addPoint(
+    lat: number,
+    lng: number,
+    options?: L.MarkerOptions,
+    onClick?: () => void  
+  ): void {
     if (!this.map) return;
-    L.marker([lat, lng], options).addTo(this.map);
-  }
+    const marker = L.marker([lat, lng], options).addTo(this.map);
 
+    if (onClick) {
+      marker.on('click', onClick);
+    }
+  }
+  async fetchTIF(url: string): Promise<Blob | null> {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch TIF file');
+      }
+      const tifBlob = await response.blob();
+      console.log('TIF file retrieved successfully');
+      return tifBlob;
+    } catch (error) {
+      console.error('Error fetching TIF file:', error);
+      return null;
+    }
+  }
   addPolygon(
     coordinates: [number, number][],
-    options: { color: string }
+    options: { color: string },
+    onClick?: () => void  
   ): L.Polygon {
     const polygon = L.polygon(coordinates, { color: options.color });
     polygon.addTo(this.map!);
     this.polygons.push(polygon);
+
+    polygon.on('mouseover', () => {
+      polygon.bindTooltip('This is a polygon', { permanent: false, direction: 'center' }).openTooltip();
+    });
+    polygon.on('mouseout', () => polygon.closeTooltip());
+  
+    // Set up click action if provided
+    if (onClick) {
+      polygon.on('click', onClick);
+    }
+  
     return polygon;
   }
-  // Method to retrieve the last added polygon
+  
   getLastPolygon(): L.Polygon | null {
     return this.polygons.length > 0
       ? this.polygons[this.polygons.length - 1]
@@ -106,11 +140,11 @@ export class GeodataVisualizationService {
     const layer = this.activeLayers[type];
     if (layer) {
       if (layer instanceof L.Polygon || layer instanceof L.CircleMarker) {
-        layer.setStyle({ opacity }); 
+        layer.setStyle({ opacity });
       } else if (layer instanceof L.TileLayer) {
         layer.setOpacity(opacity);
       }
     }
   }
-  
+
 }
