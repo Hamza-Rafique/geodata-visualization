@@ -148,6 +148,8 @@ export class AppComponent implements AfterViewInit {
 
   addRasterLayer() {
     if (this.rasterUrl) {
+      const imageBounds = [[45.81, 5.96], [47.81, 10.40]]; 
+      this.geodataService.addRaster(this.rasterUrl, this.colorFilter );
       this.geodataService.addRaster(this.rasterUrl, this.colorFilter);
       // this.snackBar.open('Raster layer added successfully', 'Close', {
       //   duration: 2000,

@@ -113,11 +113,26 @@ export class GeodataVisualizationService {
   }
 
   addRaster(url: string, colorFilter?: string): void {
-    if (!this.map) return;
+    if (!this.map) {
+      console.log("Map is not initialized.");
+      return;
+    }
     const rasterLayer = L.tileLayer(url, { opacity: 0.7 }).addTo(this.map);
-    const container = rasterLayer.getContainer();
-    if (colorFilter && container) container.style.filter = colorFilter;
+  
+    rasterLayer.on('load', () => {
+      console.log("Raster layer loaded.");
+  
+      const container = rasterLayer.getContainer();
+      if (container && colorFilter) {
+        container.style.filter = colorFilter;
+        console.log("Color filter applied:", colorFilter);
+      } else if (!container) {
+        console.log("Container not available for the raster layer.");
+      }
+    });
   }
+  
+  
 
   setLayerColor(layer: L.Layer, color: string): void {
     if (layer instanceof L.Polygon || layer instanceof L.CircleMarker)
